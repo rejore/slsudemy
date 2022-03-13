@@ -1,0 +1,31 @@
+service: slsudemy
+
+frameworkVersion: '2 || 3'
+
+package:
+  individually: true
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  lambdaHashingVersion: 20201221
+  memorySize: 256
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  
+functions:
+  hello:
+    handler: src/handlers/hello.handler
+    events:
+      - http:
+          method: GET
+          path: /hello
+custom:
+  bundle:
+    linting: false
